@@ -1,5 +1,6 @@
 import json
 import time
+import random
 
 from mitmproxy import ctx
 from mitmproxy import http
@@ -83,6 +84,11 @@ class UniversalProxy:
                 HANDLERS["feishi"](data)
                 print(f"feishi 存在{data}")
 
+            # elif "finish" in data and "score" in data and "security" in data:
+            #     print(f"tangmen 原始{data}")
+            #     HANDLERS["tangmen"](data)
+            #     print(f"tangmen 存在{data}")
+
             else:
                 print(f"cmd={cmdstr}")
                 print(f"new_cmd={cmdstr}")
@@ -125,7 +131,7 @@ def handle_hehua(data):
 
 
 def handle_run(data):
-    data["leftT"] = 24
+    data["leftT"] = 20
     data["progress"] = 480
 
 
@@ -135,8 +141,12 @@ def handle_bird(data):
 
 
 def handle_feishi(data):
-    data["feishi"] = "9|9|2"
-    data["times"] = 10
+    data["feishi"] = "9|9|7"
+    data["times"] = 0
+
+
+def handle_tangmen(data):
+    data["score"] = 368
 
 
 HANDLERS = {
@@ -144,6 +154,7 @@ HANDLERS = {
     "run": handle_run,
     "bird": handle_bird,
     "feishi": handle_feishi,
+    # "tangmen": handle_tangmen,
 }
 
 FILTER_CMD = [
