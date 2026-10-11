@@ -1,9 +1,7 @@
 import json
 import time
-import random
 
-from mitmproxy import ctx
-from mitmproxy import http
+from mitmproxy import ctx, http
 
 
 class UniversalProxy:
@@ -70,8 +68,8 @@ class UniversalProxy:
                 HANDLERS["hehua"](data)
                 print(f"hehua 存在{data}")
 
-                pass
             elif "leftT" in data and "rank" in data and "progress" in data:
+                print(f"run 原始{data}")
                 HANDLERS["run"](data)
                 print(f"run 存在{data}")
 
@@ -83,6 +81,20 @@ class UniversalProxy:
                 print(f"feishi 原始{data}")
                 HANDLERS["feishi"](data)
                 print(f"feishi 存在{data}")
+            
+            elif "jade" in data and "stone" in data:
+                print(f"jade 原始{data}")
+                HANDLERS["jade"](data)
+                print(f"jade 存在{data}")
+
+            elif "result" in data and "hp" in data:
+                HANDLERS["liyuan"](data)
+                print(f"liyuan 存在{data}")
+                
+            elif "score" in data and "ct" in data:
+                HANDLERS["guijianchou"](data)
+                print(f"guijianchou 存在{data}")
+
 
             # elif "finish" in data and "score" in data and "security" in data:
             #     print(f"tangmen 原始{data}")
@@ -131,7 +143,7 @@ def handle_hehua(data):
 
 
 def handle_run(data):
-    data["leftT"] = 20
+    data["leftT"] = 22
     data["progress"] = 480
 
 
@@ -147,13 +159,26 @@ def handle_feishi(data):
 
 def handle_tangmen(data):
     data["score"] = 368
-
+    
+def handle_jade(data):
+    # map1 "jade":[{"lv":1,"num":2},{"lv":2,"num":6},{"lv":3,"num":5},{"lv":4,"num":4},{"lv":5,"num":0}]
+    # map2 "jade":[{"lv":1,"num":1},{"lv":2,"num":5},{"lv":3,"num":6},{"lv":4,"num":5},{"lv":5,"num":0}]
+    data["jade"] = [{"lv":1,"num":1},{"lv":2,"num":4},{"lv":3,"num":4},{"lv":4,"num":8},{"lv":5,"num":0}]
+    
+def handle_liyuan(data):
+    data["hp"] = 100
+    
+def handle_guijianchou(data):
+    data["score"] = 50
 
 HANDLERS = {
     "hehua": handle_hehua,
     "run": handle_run,
     "bird": handle_bird,
     "feishi": handle_feishi,
+    "jade": handle_jade,
+    "liyuan":handle_liyuan,
+    "guijianchou":handle_guijianchou,
     # "tangmen": handle_tangmen,
 }
 
